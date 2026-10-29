@@ -1,0 +1,214 @@
+@import "tailwindcss";
+
+@layer utilities {
+  /* Print Optimization: Clean, Isolated Document Printing */
+  @media print {
+    /* Hide navigation, action buttons, form inputs, toolbars, sidebar, and non-printable overlays */
+    nav,
+    header,
+    footer,
+    aside,
+    button,
+    input,
+    select,
+    textarea,
+    .no-print,
+    .print\:hidden,
+    .no-print-area {
+      display: none !important;
+    }
+
+    /* Reset root containers to white natural flow */
+    html, body {
+      background: white !important;
+      color: black !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      width: 100% !important;
+      height: auto !important;
+      min-height: 0 !important;
+      overflow: visible !important;
+    }
+
+    /* Special handling for Raport Merdeka Card to guarantee NO blank first page and NO separated Kop */
+    body:has(.raport-print-card, #printable-raport-container) {
+      background: white !important;
+      color: black !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      overflow: visible !important;
+    }
+
+    /* Hide entire app shell completely when printing raport so non-print divs take 0 height */
+    body:has(.raport-print-card, #printable-raport-container) nav,
+    body:has(.raport-print-card, #printable-raport-container) header,
+    body:has(.raport-print-card, #printable-raport-container) footer,
+    body:has(.raport-print-card, #printable-raport-container) aside,
+    body:has(.raport-print-card, #printable-raport-container) .no-print,
+    body:has(.raport-print-card, #printable-raport-container) .print\:hidden,
+    body:has(.raport-print-card, #printable-raport-container) .no-print-area {
+      display: none !important;
+    }
+
+    body:has(.raport-print-card, #printable-raport-container) #printable-raport-container,
+    body:has(.raport-print-card, #printable-raport-container) .raport-print-card {
+      display: block !important;
+      position: absolute !important;
+      left: 0 !important;
+      top: 0 !important;
+      width: 100% !important;
+      max-width: 100% !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      border: none !important;
+      box-shadow: none !important;
+      background: white !important;
+      color: black !important;
+      visibility: visible !important;
+      z-index: 9999 !important;
+    }
+
+    body:has(.raport-print-card, #printable-raport-container) #printable-raport-container *,
+    body:has(.raport-print-card, #printable-raport-container) .raport-print-card * {
+      visibility: visible !important;
+    }
+
+    /* Prevent awkward page breaks inside critical sections */
+    .raport-header-group,
+    .raport-identity-group,
+    .raport-section-avoid,
+    .raport-signature-group,
+    .print-break-inside-avoid {
+      break-inside: avoid !important;
+      page-break-inside: avoid !important;
+    }
+
+    .raport-header-group {
+      break-after: avoid !important;
+      page-break-after: avoid !important;
+    }
+
+    /* If any printable area exists on the page, hide everything else completely */
+    body:has(.printable-document, .printable-area, [data-printable="true"], #printable-jadwal-doc, #printable-doc-root, .kartu-pelajar-print, #printable-student-cards) * {
+      visibility: hidden !important;
+    }
+
+    body:has(.printable-document, .printable-area, [data-printable="true"], #printable-jadwal-doc, #printable-doc-root, .kartu-pelajar-print, #printable-student-cards) .printable-document,
+    body:has(.printable-document, .printable-area, [data-printable="true"], #printable-jadwal-doc, #printable-doc-root, .kartu-pelajar-print, #printable-student-cards) .printable-document *,
+    body:has(.printable-document, .printable-area, [data-printable="true"], #printable-jadwal-doc, #printable-doc-root, .kartu-pelajar-print, #printable-student-cards) .printable-area,
+    body:has(.printable-document, .printable-area, [data-printable="true"], #printable-jadwal-doc, #printable-doc-root, .kartu-pelajar-print, #printable-student-cards) .printable-area *,
+    body:has(.printable-document, .printable-area, [data-printable="true"], #printable-jadwal-doc, #printable-doc-root, .kartu-pelajar-print, #printable-student-cards) #printable-jadwal-doc,
+    body:has(.printable-document, .printable-area, [data-printable="true"], #printable-jadwal-doc, #printable-doc-root, .kartu-pelajar-print, #printable-student-cards) #printable-jadwal-doc *,
+    body:has(.printable-document, .printable-area, [data-printable="true"], #printable-jadwal-doc, #printable-doc-root, .kartu-pelajar-print, #printable-student-cards) #printable-doc-root,
+    body:has(.printable-document, .printable-area, [data-printable="true"], #printable-jadwal-doc, #printable-doc-root, .kartu-pelajar-print, #printable-student-cards) #printable-doc-root *,
+    body:has(.printable-document, .printable-area, [data-printable="true"], #printable-jadwal-doc, #printable-doc-root, .kartu-pelajar-print, #printable-student-cards) .kartu-pelajar-print,
+    body:has(.printable-document, .printable-area, [data-printable="true"], #printable-jadwal-doc, #printable-doc-root, .kartu-pelajar-print, #printable-student-cards) .kartu-pelajar-print *,
+    body:has(.printable-document, .printable-area, [data-printable="true"], #printable-jadwal-doc, #printable-doc-root, .kartu-pelajar-print, #printable-student-cards) #printable-student-cards,
+    body:has(.printable-document, .printable-area, [data-printable="true"], #printable-jadwal-doc, #printable-doc-root, .kartu-pelajar-print, #printable-student-cards) #printable-student-cards *,
+    body:has(.printable-document, .printable-area, [data-printable="true"], #printable-jadwal-doc, #printable-doc-root, .kartu-pelajar-print, #printable-student-cards) [data-printable="true"],
+    body:has(.printable-document, .printable-area, [data-printable="true"], #printable-jadwal-doc, #printable-doc-root, .kartu-pelajar-print, #printable-student-cards) [data-printable="true"] * {
+      visibility: visible !important;
+    }
+
+    body:has(.printable-document, .printable-area, [data-printable="true"], #printable-jadwal-doc, #printable-doc-root, .kartu-pelajar-print, #printable-student-cards) > #root > *:not(:has(.printable-document, .printable-area, [data-printable="true"], #printable-jadwal-doc, #printable-doc-root, .kartu-pelajar-print, #printable-student-cards)) {
+      display: none !important;
+    }
+
+    /* Remove fixed backdrop darkening when printing */
+    .fixed,
+    div[class*="backdrop-blur"],
+    div[class*="bg-slate-900/"],
+    div[class*="bg-slate-900"],
+    div[class*="bg-slate-950"],
+    div[class*="bg-black/"] {
+      position: static !important;
+      inset: auto !important;
+      z-index: auto !important;
+      width: 100% !important;
+      max-width: 100% !important;
+      height: auto !important;
+      max-height: none !important;
+      overflow: visible !important;
+      background: white !important;
+      padding: 0 !important;
+      margin: 0 !important;
+      border: none !important;
+      box-shadow: none !important;
+      backdrop-filter: none !important;
+      transform: none !important;
+    }
+
+    /* Isolate printable document container: pure white, clean text, natural pagination */
+    .printable-document,
+    .printable-area,
+    [data-printable="true"],
+    .kartu-pelajar-print,
+    #printable-jadwal-doc,
+    #printable-doc-root {
+      display: block !important;
+      position: static !important;
+      width: 100% !important;
+      max-width: 100% !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      border: none !important;
+      box-shadow: none !important;
+      background: white !important;
+      color: black !important;
+      overflow: visible !important;
+      float: none !important;
+    }
+
+    /* Crisp borders & pagination for tables inside printable document */
+    .printable-document table,
+    .printable-area table,
+    #printable-jadwal-doc table {
+      width: 100% !important;
+      border-collapse: collapse !important;
+      border-color: #334155 !important;
+    }
+
+    .printable-document thead,
+    .printable-area thead,
+    #printable-jadwal-doc thead {
+      display: table-header-group !important;
+    }
+
+    .printable-document tfoot,
+    .printable-area tfoot,
+    #printable-jadwal-doc tfoot {
+      display: table-footer-group !important;
+    }
+
+    .printable-document tr,
+    .printable-area tr,
+    #printable-jadwal-doc tr {
+      break-inside: avoid !important;
+      page-break-inside: avoid !important;
+    }
+
+    .printable-document th,
+    .printable-document td,
+    .printable-area th,
+    .printable-area td,
+    #printable-jadwal-doc th,
+    #printable-jadwal-doc td {
+      border-color: #334155 !important;
+      -webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important;
+    }
+
+    /* Page settings */
+    @page {
+      size: auto;
+      margin: 10mm 12mm 12mm 12mm;
+    }
+
+    /* Force color and background print fidelity */
+    * {
+      -webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important;
+    }
+  }
+}
+

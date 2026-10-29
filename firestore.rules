@@ -1,0 +1,125 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Helper functions
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isAdmin() {
+      return (
+        isSignedIn() && (
+          exists(/databases/$(database)/documents/admins/$(request.auth.uid)) ||
+          request.auth.token.email == 'smkbaktiputramandiri@gmail.com' ||
+          request.auth.token.email == 'osisbakti@gmail.com' ||
+          request.auth.token.email == 'absensirapot@gmail.com' ||
+          request.auth.token.email == 'bpmkesparungpanjang.action@gmail.com' ||
+          request.auth.token.email == 'mohsumardi97@guru.smk.belajar.id' ||
+          request.auth.token.email == 'sumardimuhammad87@gmail.com' ||
+          request.auth.token.email == 'almeerelfaris@gmail.com'
+        )
+      );
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    // Admin bootstrap role collection
+    match /admins/{adminId} {
+      allow read, write: if true;
+    }
+
+    // School Profile Settings & Kop Surat
+    match /settings/{settingId} {
+      allow read, write: if true;
+    }
+
+    // Users & Student Accounts
+    match /users/{userId} {
+      allow read, write: if true;
+    }
+
+    // Web Publications & School Articles
+    match /konten/{kontenId} {
+      allow read, write: if true;
+    }
+
+    // CAT Examination Packages & Question Banks
+    match /ujian/{ujianId} {
+      allow read, write: if true;
+    }
+
+    // Exam Results
+    match /hasil_ujian/{hasilId} {
+      allow read, write: if true;
+    }
+
+    // PPDB / SPMB Online Registration
+    match /formulir_ppdb/{ppdbId} {
+      allow read, write: if true;
+    }
+
+    // Attendance & Barcode Records
+    match /absensi/{absensiId} {
+      allow read, write: if true;
+    }
+
+    // Teacher Attendance & Teaching Journal (Absen Mengajar Guru)
+    match /absen_mengajar/{absenId} {
+      allow read, write: if true;
+    }
+
+    // Kelas & Rombel
+    match /kelas/{kelasId} {
+      allow read, write: if true;
+    }
+
+    // Mapel
+    match /mapel/{mapelId} {
+      allow read, write: if true;
+    }
+
+    // Jadwal Pelajaran & Ujian
+    match /jadwal_pelajaran/{jadwalId} {
+      allow read, write: if true;
+    }
+
+    match /jadwal_ujian/{jadwalId} {
+      allow read, write: if true;
+    }
+
+    // Nilai & Ekskul
+    match /nilai/{nilaiId} {
+      allow read, write: if true;
+    }
+
+    match /nilai_master/{masterId} {
+      allow read, write: if true;
+    }
+
+    match /ekskul/{ekskulId} {
+      allow read, write: if true;
+    }
+
+    match /nilai_ekskul/{nilaiId} {
+      allow read, write: if true;
+    }
+
+    // System Backup Snapshots
+    match /system_backups/{backupId} {
+      allow read, write: if true;
+    }
+
+    // Connection Healthcheck Document
+    match /test/{testId} {
+      allow read, write: if true;
+    }
+
+    // Global Deny All Fallback
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

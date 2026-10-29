@@ -1,0 +1,173 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "User profile for teachers, students, admins, and staff in SMK Bakti Putra Mandiri.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "username": { "type": "string" },
+        "nama": { "type": "string" },
+        "role": { "type": "string", "enum": ["admin", "guru", "walas", "pembina_ekskul", "kesiswaan", "siswa", "calon_siswa", "staf"] },
+        "jabatanTambahan": { "type": "string" },
+        "email": { "type": "string" },
+        "nipd": { "type": "string" },
+        "nisn": { "type": "string" },
+        "kelas": { "type": "string" },
+        "jenisKelamin": { "type": "string", "enum": ["L", "P"] },
+        "nomorHp": { "type": "string" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["id", "username", "nama", "role"]
+    },
+    "SchoolInfo": {
+      "title": "SchoolInfo",
+      "description": "General profile, KOP surat settings, accreditation, and quota configurations.",
+      "type": "object",
+      "properties": {
+        "nama": { "type": "string" },
+        "npsn": { "type": "string" },
+        "akreditasi": { "type": "string" },
+        "alamat": { "type": "string" },
+        "kepalaSekolah": { "type": "string" },
+        "nipKepalaSekolah": { "type": "string" },
+        "telepon": { "type": "string" },
+        "email": { "type": "string" },
+        "website": { "type": "string" },
+        "logoUrl": { "type": "string" },
+        "lokasiSekolah": { "type": "object" },
+        "kopSekolah": { "type": "object" },
+        "kuotaJurusan": { "type": "object" }
+      },
+      "required": ["nama"]
+    },
+    "KontenWeb": {
+      "title": "KontenWeb",
+      "description": "Articles, school news, notices, and press releases.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "judul": { "type": "string" },
+        "kategori": { "type": "string", "enum": ["berita", "pengumuman", "artikel", "prestasi", "agenda"] },
+        "ringkasan": { "type": "string" },
+        "isi": { "type": "string" },
+        "penulis": { "type": "string" },
+        "tanggal": { "type": "string" },
+        "status": { "type": "string", "enum": ["published", "draft", "archived"] }
+      },
+      "required": ["id", "judul", "kategori", "isi"]
+    },
+    "PaketUjian": {
+      "title": "PaketUjian",
+      "description": "CAT Examination packages, Aiken questions, and test duration configuration.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "judul": { "type": "string" },
+        "mapel": { "type": "string" },
+        "kelas": { "type": "string" },
+        "durasi": { "type": "number" },
+        "token": { "type": "string" },
+        "soal": { "type": "array" },
+        "isAktif": { "type": "boolean" },
+        "guruPembuat": { "type": "string" }
+      },
+      "required": ["id", "judul", "mapel", "kelas", "durasi"]
+    },
+    "FormulirPPDB": {
+      "title": "FormulirPPDB",
+      "description": "Student admission (SPMB) application submission.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "noPendaftaran": { "type": "string" },
+        "namaLengkap": { "type": "string" },
+        "nisn": { "type": "string" },
+        "jurusanPilihan": { "type": "string" },
+        "asalSekolah": { "type": "string" },
+        "nomorHp": { "type": "string" },
+        "status": { "type": "string", "enum": ["Menunggu Verifikasi", "Diterima", "Cadangan", "Ditolak"] },
+        "tanggalDaftar": { "type": "string" }
+      },
+      "required": ["id", "noPendaftaran", "namaLengkap", "jurusanPilihan"]
+    },
+    "AbsensiRecord": {
+      "title": "AbsensiRecord",
+      "description": "Daily student attendance records verified by Barcode / QR Scanner.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "nipd": { "type": "string" },
+        "namaSiswa": { "type": "string" },
+        "kelas": { "type": "string" },
+        "tanggal": { "type": "string" },
+        "waktu": { "type": "string" },
+        "status": { "type": "string", "enum": ["Hadir", "Sakit", "Izin", "Alpa", "Terlambat"] },
+        "metode": { "type": "string" }
+      },
+      "required": ["id", "nipd", "namaSiswa", "kelas", "tanggal", "status"]
+    }
+  },
+  "firestore": {
+    "/settings/{settingId}": {
+      "schema": "SchoolInfo",
+      "description": "General profile and configuration of the school."
+    },
+    "/users/{userId}": {
+      "schema": "User",
+      "description": "User profiles of students, teachers, and admins."
+    },
+    "/konten/{kontenId}": {
+      "schema": "KontenWeb",
+      "description": "Web portal publications, news, and school activities."
+    },
+    "/ujian/{ujianId}": {
+      "schema": "PaketUjian",
+      "description": "Computer-Assisted Test packages and question banks."
+    },
+    "/hasil_ujian/{hasilId}": {
+      "schema": "PaketUjian",
+      "description": "Student exam results and scoring history."
+    },
+    "/formulir_ppdb/{ppdbId}": {
+      "schema": "FormulirPPDB",
+      "description": "Online admissions and registration submissions."
+    },
+    "/absensi/{absensiId}": {
+      "schema": "AbsensiRecord",
+      "description": "Attendance log entries scanned via barcode/QR."
+    },
+    "/kelas/{kelasId}": {
+      "schema": "SchoolInfo",
+      "description": "Classrooms and homeroom teacher assignments."
+    },
+    "/mapel/{mapelId}": {
+      "schema": "SchoolInfo",
+      "description": "Subjects and curriculum courses."
+    },
+    "/jadwal_pelajaran/{jadwalId}": {
+      "schema": "SchoolInfo",
+      "description": "Lesson schedules and timetable."
+    },
+    "/jadwal_ujian/{jadwalId}": {
+      "schema": "SchoolInfo",
+      "description": "Exam schedule timetable."
+    },
+    "/nilai/{nilaiId}": {
+      "schema": "SchoolInfo",
+      "description": "Student academic grades and ledger."
+    },
+    "/ekskul/{ekskulId}": {
+      "schema": "SchoolInfo",
+      "description": "Extracurricular activities and coaches."
+    },
+    "/nilai_ekskul/{nilaiId}": {
+      "schema": "SchoolInfo",
+      "description": "Extracurricular grades."
+    },
+    "/absen_mengajar/{absenId}": {
+      "schema": "AbsensiRecord",
+      "description": "Teacher attendance and teaching journal logs."
+    }
+  }
+}

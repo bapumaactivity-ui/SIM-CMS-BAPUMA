@@ -1,0 +1,8 @@
+{
+  "name": "SMK Bakti Putra Mandiri - Sistem CAT-CMS Web \u0026 SPMB Terpadu",
+  "description": "Sistem Informasi Terpadu SMK Bakti Putra Mandiri: Portal Web Sekolah, Ujian Sekolah Online \u0026 Cetak Offline (CAT HOTS Kejuruan), Leger Nilai, Monitoring Guru, Portal Login Terpadu, dan SPMB Online.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
